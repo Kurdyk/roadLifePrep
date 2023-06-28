@@ -11,10 +11,12 @@
     width: 80%;
     height: 100%;
     overflow-x: scroll;
+    background-color: white;
 }
 
 .TableSearchBar {
     margin-bottom: 1% !important;
+    width: 50%;
 }
 
 .MuiDataGrid-cell:focus {

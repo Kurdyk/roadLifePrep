@@ -1,12 +1,11 @@
 import React from 'react'
-import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, ReferenceLine, Line, Tooltip } from 'recharts'
+import { ResponsiveContainer, LineChart, XAxis, YAxis, ReferenceLine, Line, Tooltip } from 'recharts'
 import { LineGraphComponenentProps } from './type';
 
 const LineGraphComponent: React.FC<LineGraphComponenentProps> = ({lines, referenceLines, id, xLabel, yLabel}) => {
     return (
         <ResponsiveContainer id={id} className="LineGraphWrapper">
             <LineChart className="LineChart">
-                <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="key" label={{value:xLabel, position:"insideBottomRight", dy:5}} height={40}/>
                 <YAxis label={{value:yLabel, position:"insideTopLeft", dx:60, dy: -25}} width={40} height={100}/>
                 <Tooltip />

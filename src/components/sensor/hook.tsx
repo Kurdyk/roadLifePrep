@@ -40,7 +40,7 @@ export const fetchData = (timeScale:TimeScale, sensorId:number,
         const len = [...data].length; // .lenght doesn't directly work for some reason
         switch (timeScale) {
             case "Jour" as TimeScale:
-                setChartData([{name:dataType, stroke:"orange", 
+                setChartData([{name:dataType, stroke:"#ff6714", 
                 data:data.map((value:number, index:number) => { // set the values
                     return {
                         key: `J-${Math.abs(index-len)}`,
@@ -49,7 +49,7 @@ export const fetchData = (timeScale:TimeScale, sensorId:number,
                 })}])
                 break;
             case "Semaine" as TimeScale:
-                setChartData([{name:dataType, stroke:"orange", 
+                setChartData([{name:dataType, stroke:"#ff6714", 
                 data:data.map((value:number, index:number) => { // set the values
                     return {
                         key: `S-${Math.abs(index-len)}`,
@@ -58,7 +58,7 @@ export const fetchData = (timeScale:TimeScale, sensorId:number,
                 })}])
                 break;
             case "Mois" as TimeScale:
-                setChartData([{name:dataType, stroke:"orange", 
+                setChartData([{name:dataType, stroke:"#ff6714", 
                 data:data.map((value:number, index:number) => { // set the values
                     return {
                         key: `M-${Math.abs(index-len)}`,
@@ -67,7 +67,7 @@ export const fetchData = (timeScale:TimeScale, sensorId:number,
                 })}])
                 break;
             case "Années" as TimeScale:
-                setChartData([{name:dataType, stroke:"orange", 
+                setChartData([{name:dataType, stroke:"#ff6714", 
                 data:data.map((value:number, index:number) => { // set the values
                     return {
                         key: `A-${Math.abs(index-len)}`,

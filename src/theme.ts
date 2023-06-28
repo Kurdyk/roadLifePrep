@@ -15,11 +15,11 @@ const muiTheme = createTheme({
       main: red.A400,
     },
     background: {
-        paper: '#fff',
+        paper: '#1e90ff',
       },
     text: {
         primary: "#000",
-        secondary: "#777"
+        secondary: "#000",
     },
     info:{
         main:"#FFF",

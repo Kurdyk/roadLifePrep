@@ -15,7 +15,7 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({id, labels, index, onCha
 
     return (
         <Box className="CheckboxFilter" id={id}>
-            <Typography variant='h6' className="CheckboxFilterTitle">{title}</Typography>
+            <Typography variant='h6' className="CheckboxFilterTitle" color={"text.secondary"}>{title}</Typography>
             <CheckboxGroup labels={labels} onChange={(event, labelIndex) => {
                 const current = selections.get(index)!;
                 if (event.target.checked) {
@@ -25,7 +25,8 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({id, labels, index, onCha
                 }
                 setSelections(index, current);
                 onChange?.apply(undefined)
-            }} />
+            }}
+            />
         </Box>
     )
 }

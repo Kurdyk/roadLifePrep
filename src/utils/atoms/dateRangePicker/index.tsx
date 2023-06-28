@@ -18,7 +18,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({id, index, startDateLa
 
     return (
         <Box id={id} className="DateRangePicker" key={index}>
-            <Typography variant='h6'>{title}</Typography>
+            <Typography variant='h6' color={"text.secondary"}>{title}</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
                 <DatePicker className="DatePicker"
                             label={startDateLabel}

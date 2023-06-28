@@ -1,5 +1,5 @@
 import React from 'react'
-import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Legend, ReferenceLine, Tooltip, Bar} from 'recharts';
+import { ResponsiveContainer, BarChart, XAxis, YAxis, Legend, ReferenceLine, Tooltip, Bar} from 'recharts';
 import { BarGraphComponenentProps } from './type';
 
 const BarGraphComponent: React.FC<BarGraphComponenentProps> = ({bars, id, referenceLines}) => {
@@ -8,7 +8,6 @@ const BarGraphComponent: React.FC<BarGraphComponenentProps> = ({bars, id, refere
             <BarChart
                 data={bars[0].data}
             >
-                <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="key" />
                 <YAxis />
                 <Tooltip />
@@ -19,7 +18,7 @@ const BarGraphComponent: React.FC<BarGraphComponenentProps> = ({bars, id, refere
                     })
                 }
                 
-                <Bar dataKey="value" fill="#8884d8" name="Usage"/>
+                <Bar dataKey="value" fill="#ff6714" name="Usage"/>
                     
             </BarChart>
         </ResponsiveContainer>
