@@ -12,6 +12,7 @@ import InterventionListComposant from 'components/intervention/interventionPage'
 import NewInterventionForm from 'components/intervention/interventionForm'
 import RoleProtectionComponent from 'utils/roleProtection'
 import NoMatch from 'components/noMatch'
+import LoginProtectionComponent from 'utils/loginProtection'
 
 const AllRoutes: React.FC = () => {
   return (
@@ -24,7 +25,7 @@ const AllRoutes: React.FC = () => {
             <Route path={roadsPath} element={<RoadComponent />} /> 
             <Route path={sensorPath} element={<SensorComponent/>} />
             <Route path={interventionPath} element={<InterventionListComposant/>} />
-            <Route path={newInterventionPath} element={<NewInterventionForm />}/>
+            <Route path={newInterventionPath} element={<LoginProtectionComponent children={<NewInterventionForm />} />}/>
             <Route path='*' element={<NoMatch/>} />
         </Routes>
     </Box>
