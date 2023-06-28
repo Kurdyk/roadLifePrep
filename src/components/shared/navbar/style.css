@@ -1,0 +1,29 @@
+@import "./burgerMenu/style.css";
+
+#NavBarWrapper{
+    display:flex;
+    flex-direction: row;
+    height:40px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#NavBarButtonWrapper {
+    right: 1%;
+}
+
+#BurgerWrapper {
+    display: none;
+    height:100%;
+    margin-right: 1%;
+}
+
+@media all and (max-width : 530px) {
+    #NavBarButtonWrapper {
+        display: none;
+    }
+
+    #BurgerWrapper {
+        display: block;
+    }
+}

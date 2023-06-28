@@ -1,0 +1,28 @@
+.FormGroup {
+    width: 100%;
+    height: 100%;
+}
+
+.InputsRows {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.InputLabel {
+    display: none !important; /* Change to display titles */
+    width: 100%;
+    height: 100%;
+}
+
+.Input {
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+    width: 100%;
+    height: 100%;
+}
+
+.FormErrorHelperText {
+    color: red !important;
+}

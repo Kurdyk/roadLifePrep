@@ -1,0 +1,22 @@
+.SearchableDataGrid {
+    width: 75%;
+    height: 436px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.DataGrid {
+    width: 80%;
+    height: 100%;
+    overflow-x: scroll;
+}
+
+.TableSearchBar {
+    margin-bottom: 1% !important;
+}
+
+.MuiDataGrid-cell:focus {
+    outline: none !important;
+}

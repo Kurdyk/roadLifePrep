@@ -1,0 +1,17 @@
+#SwitchableRoadDisplay {
+    width: 100%;
+    height: 99%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#RoadsMap {
+    width: 80%;
+    height: 80%;
+    margin-top: 1%;
+}
+
+#RoadGrid {
+    width: 100%;
+}

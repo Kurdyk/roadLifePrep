@@ -1,0 +1,12 @@
+.DateRangePicker {
+    display : flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.DatePicker {
+    margin: 3px !important;
+}

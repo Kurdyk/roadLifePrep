@@ -1,0 +1,13 @@
+@import "./content/style.css";
+
+#footerAccueil {
+    z-index:1; 
+    min-height: 15vh;
+    display: flex;
+    justify-content:space-evenly;
+    width:100%;
+    background-color:#4287f5;
+    align-items:center;
+    position: fixed;
+    bottom: 0;
+}

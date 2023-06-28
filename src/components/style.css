@@ -1,0 +1,16 @@
+@import "./accueil/style.css";
+@import "./authentification/style.css";
+@import "./users/style.css";
+@import "./shared/style.css";
+@import "./roads/style.css";
+@import "./sensor/style.css";
+@import "./intervention/style.css";
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
+.leaflet-marker-icon {
+    background: none;
+}
