@@ -1,17 +1,27 @@
+import { RoadName } from "components/roads/type";
 import { DialogComponentProps } from "utils/dialog/type";
 
+export enum Status {
+    Asked = 0,
+    Refused = 1,
+    Outgoing = 2,
+    Solved = 3
+}
+
 export type Intervention = {
-    interventionId : string,
-    roadLocalisation  : string,
+    id : string,
+    roadName: RoadName,
+    roadUrl: string,
     askDate : Date,
     description : string,
-    state : "Demandée" | "Refusée" | "En cours" | "Terminée",
+    state : Status,
     lastModification? : Date,
     report? : string,
     gain? : number,
     actions? : DialogComponentProps[],
-    dateRefusal? : Date,
-    dateSolved? : Date,
-    dateValidation? : Date,
+    refusalDate? : Date,
+    realisationDate? : Date,
+    acceptanceDate? : Date,
     refusalDescription?: string,
 };
+

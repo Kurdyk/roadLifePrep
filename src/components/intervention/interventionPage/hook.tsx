@@ -1,26 +1,45 @@
-import { Intervention } from "./type";
+import { Intervention, Status } from "./type";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import { ExtendedGridColDef } from "utils/SearchableDataGrid/type";
 import { DialogComponentProps } from "utils/dialog/type";
 import { Box, TextField, Typography } from "@mui/material";
 import DialogComponent from "utils/dialog";
+import { RoadName } from "components/roads/type";
 
-const url = `http://localhost:5000/intervention/all`;
+const url = `http://localhost:5111/interventions`;
 
+const requestRoadName = (async (url: string) => {
+    
+    const rawResponse = await fetch(url, {
+        method: 'GET',
+        headers:{
+        'Content-type':'application/json', 
+        },
+    });
+
+    if (rawResponse.status !== 200) {
+        return 
+    }
+    
+    // success
+    const content = await rawResponse.json();
+    return content.road.name;
+})
 
 // Updating methods
-const postModify = ( async (id:string, action:string, commentary:string) => {
-    const postUrl = `http://localhost:5000/intervention/${action}/${id}`;
+const postModify = ( async (id:string, action:number, commentary:string) => {
+    const putUrl = `http://localhost:5111/interventions/${id}`;
     
-    const rawResponse = await fetch(postUrl, {
-        method: 'POST',
+    const rawResponse = await fetch(putUrl, {
+        method: 'PUT',
         headers:{
             'Content-type':'application/json', 
             "token":sessionStorage.getItem("token")!,
         },
         body: JSON.stringify({
-            "content": commentary,
+            "description": commentary,
+            "newState": action,
         })
     });
 
@@ -32,90 +51,116 @@ const postModify = ( async (id:string, action:string, commentary:string) => {
     }
 )
 
-const castAll = (rawList : Intervention[], 
-                commentary:MutableRefObject<string>): Intervention[] => {
-    return rawList.map((rawIntervention, index) => {
-        // Actions
-        let actions = [] as DialogComponentProps[];
-        switch (rawIntervention["state"]) {
-            case "Demandée":
-                actions = [
-                    {
-                        title: `Vous allez valider la demande ${rawIntervention.interventionId}`,
-                        dialogOpener : "Valider",
-                        dialogButtons: [
-                            {
-                                id: 1,
-                                text: "Valider la demande",
-                                onClick: () => {postModify.call(undefined, rawIntervention.interventionId, "accept", commentary.current)},
-                            }
-                        ]
-                    },
-                    {
-                        children: <TextField 
-                                    placeholder="Refusal text"
-                                    onChange={(event) => {commentary.current = event.target.value;}} 
-                                    multiline
-                                    className="CommentaryField"/>,
-                        title: `Vous allez refuser la demande ${rawIntervention.interventionId}`,
-                        text: "Ajouter un commentaire",
-                        dialogOpener : "Refuser",
-                        dialogButtons: [
-                            {
-                                id: 1,
-                                text: "Refuser la demande",
-                                onClick: () => {postModify.call(undefined, rawIntervention.interventionId, "refuse", commentary.current)},
-                            }
-                        ]
-                    },
-                ];
-                break;
-            case "En cours":
-                actions = [
-                    {
-                        children: <TextField 
-                                    placeholder="Solved text" 
-                                    onChange={(event) => {commentary.current = event.target.value;}}
-                                    multiline
-                                    className="CommentaryField"/>,
-                        title: `Vous allez marquer la demande ${rawIntervention.interventionId} comme terminée`,
-                        text: "Ajouter un commentaire",
-                        dialogOpener : "Terminer",
-                        dialogButtons: [
-                            {
-                                id: 1,
-                                text: "Terminée la demande",
-                                onClick: () => {postModify.call(undefined, rawIntervention.interventionId, "end", commentary.current)},
-                            }
-                        ]
-                    },
-                ]
-                break;
-            default:
-                break;
-        }
-        rawIntervention["actions"] = actions;
-        // Last mododification and related
-        let lastStateModification = "";
-        let gain = 0;
-        let report = "";
-        switch (rawIntervention.state) {
-            case "En cours":
-                lastStateModification = `${rawIntervention.state} le ${rawIntervention.dateValidation}`
-                break;
-            case "Refusée":
-                lastStateModification = `${rawIntervention.state} le ${rawIntervention.dateRefusal}`
-                report = rawIntervention.refusalDescription!;
-                break;
-            case "Terminée":
-                lastStateModification = `${rawIntervention.state} le ${rawIntervention.dateSolved}`
-                report = rawIntervention.report!;
-                gain = rawIntervention.gain!;
-                break;
-        }
-        return {...rawIntervention, actions:actions, id:index, lastStateModification:lastStateModification, report:report, gain:gain};
-    })
-}
+const castAll = async (rawList: Intervention[], commentary: MutableRefObject<string>): Promise<Intervention[]> => {
+  
+    const result = await Promise.all(rawList.map(async (rawIntervention, index) => {
+      const roadName = await requestRoadName(rawIntervention.roadUrl);
+      const actions: DialogComponentProps[] = [];
+  
+      switch (rawIntervention["state"]) {
+        case Status.Asked:
+          actions.push({
+            title: `Vous allez valider la demande ${rawIntervention.id}`,
+            dialogOpener: "Valider",
+            dialogButtons: [
+              {
+                id: 1,
+                text: "Valider la demande",
+                onClick: () => {
+                  postModify(rawIntervention.id, Status.Outgoing, commentary.current);
+                },
+              },
+            ],
+          });
+          actions.push({
+            children: (
+              <TextField
+                placeholder="Refusal text"
+                onChange={(event) => {
+                  commentary.current = event.target.value;
+                }}
+                multiline
+                className="CommentaryField"
+              />
+            ),
+            title: `Vous allez refuser la demande ${rawIntervention.id}`,
+            text: "Ajouter un commentaire",
+            dialogOpener: "Refuser",
+            dialogButtons: [
+              {
+                id: 1,
+                text: "Refuser la demande",
+                onClick: () => {
+                  postModify(rawIntervention.id, Status.Refused, commentary.current);
+                },
+              },
+            ],
+          });
+          break;
+        case Status.Outgoing:
+          actions.push({
+            children: (
+              <TextField
+                placeholder="Solved text"
+                onChange={(event) => {
+                  commentary.current = event.target.value;
+                }}
+                multiline
+                className="CommentaryField"
+              />
+            ),
+            title: `Vous allez marquer la demande ${rawIntervention.id} comme terminée`,
+            text: "Ajouter un commentaire",
+            dialogOpener: "Terminer",
+            dialogButtons: [
+              {
+                id: 1,
+                text: "Terminée la demande",
+                onClick: () => {
+                  postModify(rawIntervention.id, Status.Solved, commentary.current);
+                },
+              },
+            ],
+          });
+          break;
+        default:
+          break;
+      }
+  
+      // Last mododification and related
+      let lastStateModification = "";
+      let gain = 0;
+      let report = "";
+      switch (rawIntervention.state) {
+          case Status.Outgoing:
+              lastStateModification = `Validée le ${rawIntervention.acceptanceDate}`
+              break;
+          case Status.Refused:
+              lastStateModification = `Refusée le ${rawIntervention.refusalDate}`
+              report = rawIntervention.refusalDescription!;
+              break;
+          case Status.Solved:
+              lastStateModification = `Terminée le ${rawIntervention.realisationDate}`
+              report = rawIntervention.report!;
+              gain = rawIntervention.gain!;
+              break;
+      }
+  
+      const currentIntervention = {
+        ...rawIntervention,
+        actions: actions,
+        lastStateModification: lastStateModification,
+        report: report,
+        gain: gain,
+        roadName: roadName,
+      } as Intervention;
+  
+      return currentIntervention;
+    }));
+  
+    return result;
+    
+};  
 
 export const useData = () => {
 
@@ -125,7 +170,7 @@ export const useData = () => {
     // Columns
     const columns = [
         {
-            field:"interventionId",
+            field:"id",
             headerName:"ID",
             minWidth: 330,
             align: "center",
@@ -133,18 +178,21 @@ export const useData = () => {
             flex:1,
         },
         {
-            field:"roadLocalisation",
+            field:"roadName",
             headerName:"Route",
-            minWidth: 250,
+            minWidth: 300,
+            maxWidth: 400,
             align: "center",
             headerAlign: "center",
             flex:1,
             renderCell: (param) => {
-                const localisation = param.row.roadLocalisation as string;
-                const toDisplay = localisation.split("_")
+                const roadName = param.row.roadName as RoadName;
+                if (roadName === undefined) return
                 return (
                     <Box className="RoadNameWrapper">
-                        {toDisplay.map((text) => {return <Typography>{text}</Typography>})}
+                        <Typography>{roadName.streetName}</Typography>
+                        <Typography>{roadName.postalCode}</Typography>
+                        <Typography>{roadName.city}</Typography>
                     </Box>
                 )
             }
@@ -158,7 +206,11 @@ export const useData = () => {
             flex:1,
             headerAlign: "center",
             title: "Selection de la date de demande:",
-            id : "DatePicker"
+            id : "DatePicker",
+            renderCell: (param) => {
+                const date = param.value as Date;
+                return dayjs(date).format("DD/MM/YYYY");
+            }
         },
         {
             field:"description",
@@ -179,9 +231,19 @@ export const useData = () => {
             align: "center",
             flex:1,
             headerAlign: "center",
-            checkboxeFilter : ["Demandée", "Refusée", "En cours", "Terminée"],
+            checkboxFilter : [{display: "Demandée", value:0}, {display: "Refusée", value:1}, 
+                            {display: "En cours", value:2}, {display: "Terminée", value:3},],
             title : "Selection de l'état:",
-            id : "StatePicker"
+            id : "StatePicker",
+            renderCell: (param) => {
+                const statusMap: { [key: number]: string } = {
+                    0: "Demandée",
+                    1: "Refusée",
+                    2: "Validée",
+                    3: "Terminée",
+                };
+                return statusMap[param.value];
+            }
         },
         {
             field:"lastStateModification",
@@ -204,12 +266,16 @@ export const useData = () => {
             }
         },
         {
-            field:"gain",
+            field:"wearGain",
             headerName:"Gain score",
             minWidth: 150,
             align: "center",
             flex:1,
             headerAlign: "center",
+            renderCell: (param) => {
+                if (param.value === null || param.value === undefined) return
+                return `${param.value}%`
+            }
         },
         
     ] as ExtendedGridColDef[];
@@ -241,13 +307,6 @@ export const useData = () => {
     
     useEffect(() => {
 
-        const stateConversion = new Map<number, string>([
-            [0, "Demandée"],
-            [1, "Refusée"],
-            [2, "En cours"],
-            [3, "Terminée"],
-        ]);
-
         const requestRoads = (async () => {
             const rawResponse = await fetch(url, {
                 method: 'GET',
@@ -262,18 +321,19 @@ export const useData = () => {
             }
             
             const content = await rawResponse.json();
-            const intervertionData = content["content"]
+            const intervertionData = content["interventionList"]
             return intervertionData.map((rawIntervention:any) => {
                 rawIntervention.askDate = dayjs(rawIntervention.askDate).toDate(); // Case to date type
-                rawIntervention.state = stateConversion.get(rawIntervention.state);
                 return rawIntervention;
             }) ;
         });
     
         requestRoads().then((response) => {
             const castInterventions = castAll(response, commentary);
-            setInterventions(castInterventions);
-            setIsLoading(false);
+            castInterventions.then((list) => {
+                setIsLoading(false);
+                setInterventions(list);
+            })
         });
     
     }, []);

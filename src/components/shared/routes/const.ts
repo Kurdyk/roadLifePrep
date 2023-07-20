@@ -9,15 +9,13 @@ export const sensorPath = "/sensor/:sensorId";
 export const interventionPath = "/interventions";
 export const newInterventionPath = "/newIntervention";
 export const teamPath = "/team";
-export const openDataPath = "/openData"
 
 export const allRoutes = [
     {linkName: "Accueil", path: accueilPath,},
     {linkName: "L'équipe", path:teamPath},
     {linkName: "Connexion", path:authentificationPath, requiredLogin:false,},
     {linkName: "Logout", path:logoutPath, requiredLogin:true,},
-    {linkName: "Users", path:usersPath, requiredRole:{key:"key", role:"collectivite"}},
+    {linkName: "Users", path:usersPath, requiredRole:{key:"role", role:"collectivite"}},
     {linkName: "Routes", path:roadsPath},
     {linkName: "Interventions", path:interventionPath},
-    {linkName: "OpenData", path:openDataPath},
 ] as RouteInfo[];

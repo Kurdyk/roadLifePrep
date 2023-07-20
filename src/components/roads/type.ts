@@ -1,11 +1,16 @@
+export type Position = [number, number]
+
+export type RoadName = {
+    city:string,
+    postalCode:string, 
+    streetName:string
+}
+
 export type Road = {
-    roadId:number,
-    street:string,
-    postalCode: number,
-    city: string,
-    sensorsIdList: number[], 
-    startPosition: [number, number],
-    endPosition: [number, number],
+    id:string,
+    name: RoadName,
+    wearScore: number,
+    roadPosition: Position[],
 };
 
 export type DispayableRoad = {

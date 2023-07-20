@@ -13,24 +13,27 @@ const roadsUrl = "http://localhost:5555/roads";
 const sensorsUrl = "http://localhost:5555/sensors";
 
 // utils
-const castToRowData = (roadString:string) => {
-    const replaceRegex = /| |"/g;
-    const filtered = roadString.replaceAll(replaceRegex, "");
-    const roadObject = JSON.parse(filtered);
-    return roadObject;
-}
 
-const castAll = (rawData:string[]) => {
+const castAll = (rawData:any[]) => {
+    if (rawData === undefined) {
+        return [];
+    }
     return rawData.map((objectString, index) => {
-        const asObject = castToRowData(objectString);
-        asObject["id"] = index;
-        return asObject;
+        try {
+            const asObject = JSON.parse(objectString)
+            asObject["id"] = index;
+            return asObject;
+        } catch {
+            const asObject = objectString
+            asObject["id"] = index;
+            return asObject;
+        }
+        
     })
 }
 
 // utils for table
 const join = (sensors:Sensor[], roads:Road[]):DispayableRoad[] => {
-
     const fillNumber = (n:number) => {
         const asString = String(n);
         return "0".repeat(3 - asString.length) + asString;
@@ -38,29 +41,35 @@ const join = (sensors:Sensor[], roads:Road[]):DispayableRoad[] => {
 
     const result = Array<DispayableRoad>();
     var id = 0;
-    roads.forEach(({street, postalCode, city, sensorsIdList, roadId}) => {
-        var cmpt = 0;
-        sensors.forEach(({currentWear, sensorId}) => {
-            if (sensorsIdList.includes(parseInt(sensorId))) {
+    const roadToSensorNumber = new Map<string, number>();
+    sensors.forEach(({id: sensorId, roadId: sensorRoadId}) => {
+        roads.forEach(({id: roadId, name, wearScore}) => {
+            const postalCode = name.postalCode;
+            if (String(roadId) === String(sensorRoadId)) {
+                var cmpt = roadToSensorNumber.get(roadId);
+                if (cmpt === undefined) {
+                    cmpt = 1;
+                } 
+                roadToSensorNumber.set(roadId, cmpt + 1)
                 result.push({
-                    road: `${street}\n${postalCode} ${city}`,
+                    road: `${name.streetName} ${name.postalCode} ${name.city}`,
                     id:id++,
-                    sensor: `CAP_${postalCode}_${fillNumber(++cmpt)}`,
-                    wear:currentWear,
+                    sensor: `CAP_${postalCode}_${fillNumber(cmpt)}`,
+                    wear:wearScore,
                     usage:0,
                 } as DispayableRoad) 
-            }      
+            }
         })
     })
     return result;
 }
 
 // utils for map
-const toDisplayableMarkers = (sensors:Sensor[]):MarkerInfo[] => {
-    return sensors.map(({position, sensorId}, index) => {
+const toDisplayableMarkers = (sensors:Sensor[], sensorsPostalCode:Map<string, string>):MarkerInfo[] => {
+    return sensors.map(({position, id}, index) => {
         return {position: position,
-            text:`CAP_75008_${sensorId}`,
-            link:`/sensor/${sensorId}`,
+            text:`CAP_${sensorsPostalCode.get(id)}_${id}`,
+            link:`/sensor/${id}`,
             icon: greenIcon,
             id:index,
             interactive:true}
@@ -68,11 +77,11 @@ const toDisplayableMarkers = (sensors:Sensor[]):MarkerInfo[] => {
 }
 
 const toDisplayableRoads = (roads:Road[]):LinesInfo[] => {
-    return roads.map(({startPosition, endPosition, roadId}) => {
-        return {startPosition : startPosition,
-            endPosition : endPosition,
-            color : "red",
-            id: roadId,
+    return roads.map(({id, roadPosition, wearScore}) => {
+        return {
+            position: roadPosition,
+            color : colorWear(wearScore),
+            id: id,
     }})
 }
 
@@ -80,6 +89,9 @@ const toDisplayableRoads = (roads:Road[]):LinesInfo[] => {
 export const useData = () => {
 
     const navigate = useNavigate();
+
+    // loading
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Columns
     const columns = [
@@ -106,15 +118,15 @@ export const useData = () => {
         {
             field:"sensor",
             headerName:"Capteur",
-            width: 150,
+            minWidth: 150,
             align: "center",
             flex:1,
             headerAlign: "center",
         },
         {
-            field:"currentWear",
+            field:"wearScore",
             headerName:"Usure",
-            width: 150,
+            minWidth: 150,
             align: "center",
             flex:1,
             headerAlign: "center",
@@ -126,7 +138,7 @@ export const useData = () => {
         {
             field:"usage",
             headerName:"Nb passages/jour",
-            width: 150,
+            minWidth: 150,
             align: "center",
             flex:1,
             headerAlign: "center",
@@ -136,6 +148,7 @@ export const useData = () => {
     // Rows
     const [roads, setRoads] = useState<Road[]>([]);
     const [sensors, setSensors] = useState<Sensor[]>([]);
+    const [sensorsPostalCode, setSensorsPostalCode] = useState<Map<string, string>>(new Map<string, string>()); // sensor id -> postal code
 
     useEffect(() => {
         const requestRoads = (async () => {
@@ -152,7 +165,7 @@ export const useData = () => {
             }
             
             const content = await rawResponse.json();
-            const roadData = content["content"]
+            const roadData = content["roadList"]
             return roadData;
         });
     
@@ -179,7 +192,7 @@ export const useData = () => {
             }
             
             const content = await rawResponse.json();
-            const sensorData = content["content"];
+            const sensorData = content["sensorList"];
             return sensorData;
         });
     
@@ -187,18 +200,40 @@ export const useData = () => {
         requestSensors().then((response) => {
             const castSensors = castAll(response);
             setSensors(castSensors);
+            setIsLoading(false)
         });
     
     }, []);
 
+
+    useEffect(() => {
+        const updateSensorsPostalCode = () => {
+          const map = new Map<string, string>();
+          // Update the map based on the sensors and roads data
+          sensors.forEach(({ id: sensorId, roadId: sensorRoadId }) => {
+            roads.forEach(({ id: roadId, name }) => {
+              const postalCode = name.postalCode;
+              if (String(roadId) === String(sensorRoadId)) {
+                // Update the map with the sensor id and postal code
+                map.set(sensorId, postalCode);
+              }
+            });
+          });
+          setSensorsPostalCode(map);
+        };
+    
+        updateSensorsPostalCode();
+    }, [sensors, roads]);
+
     const gridDisplayableRoads = join(sensors, roads);
     const visualRoads = toDisplayableRoads(roads);
-    const visualSensors = toDisplayableMarkers(sensors);
-    
+    const visualSensors = toDisplayableMarkers(sensors, sensorsPostalCode);
+
     return {
         columns,
         gridDisplayableRoads,
         visualRoads,
         visualSensors,
+        isLoading,
     }
 }

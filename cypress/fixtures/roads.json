@@ -1,0 +1,60 @@
+{
+    "roadList": [
+      {
+        "id": 0,
+        "name": {
+          "streetName": "Rue de la Paix",
+          "postalCode": "75001",
+          "city": "Paris"
+        },
+        "wearScore": 80,
+        "roadPosition": [
+          { "lat": 48.8708, "lng": 2.3321 },
+          { "lat": 48.8709, "lng": 2.3322 },
+          { "lat": 48.871, "lng": 2.3323 }
+        ]
+      },
+      {
+        "id": 1,
+        "name": {
+          "streetName": "Rue de Rivoli",
+          "postalCode": "75001",
+          "city": "Paris"
+        },
+        "wearScore": 60,
+        "roadPosition": [
+          { "lat": 48.8592, "lng": 2.3424 },
+          { "lat": 48.8593, "lng": 2.3425 },
+          { "lat": 48.8594, "lng": 2.3426 }
+        ]
+      },
+      {
+        "id": 2,
+        "name": {
+          "streetName": "Avenue des Champs-Élysées",
+          "postalCode": "75008",
+          "city": "Paris"
+        },
+        "wearScore": 75,
+        "roadPosition": [
+          { "lat": 48.8715, "lng": 2.3016 },
+          { "lat": 48.8716, "lng": 2.3017 },
+          { "lat": 48.8717, "lng": 2.3018 }
+        ]
+      },
+      {
+        "id": 3,
+        "name": {
+          "streetName": "Boulevard Saint-Germain",
+          "postalCode": "75006",
+          "city": "Paris"
+        },
+        "wearScore": 70,
+        "roadPosition": [
+          { "lat": 48.8539, "lng": 2.3387 },
+          { "lat": 48.8540, "lng": 2.3388 },
+          { "lat": 48.8541, "lng": 2.3389 }
+        ]
+      }      
+    ]
+  }

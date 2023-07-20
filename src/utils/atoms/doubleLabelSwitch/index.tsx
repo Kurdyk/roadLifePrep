@@ -9,12 +9,13 @@ const DoubleLabelSwitchComponent: React.FC<DoubleLabelSwitchComponentProps> = ({
 
     return (
         <Box className="DoubleLabelSwitch">
-            <Typography className="DoubleSwitchLabel" variant="h4">{labels[0]}</Typography>
+            <Typography className="DoubleSwitchLabel" variant="h4" color={"text.secondary"}>{labels[0]}</Typography>
             <Switch 
                 defaultChecked={state === 1} 
                 onChange={() => {changeHandler(state);}}
+                className="Switch"
             />
-            <Typography className="DoubleSwitchLabel" variant="h4">{labels[1]}</Typography>
+            <Typography className="DoubleSwitchLabel" variant="h4" color={"text.secondary"}>{labels[1]}</Typography>
         </Box>
   )
 }

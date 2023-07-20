@@ -1,3 +1,4 @@
+import { Position } from "components/roads/type";
 import { Icon } from "leaflet"
 
 export type MarkerInfo = {
@@ -10,10 +11,9 @@ export type MarkerInfo = {
 };
 
 export type LinesInfo = {
-    startPosition : [number, number],
-    endPosition : [number, number],
+    position: Position[],
     color : string,
-    id: number, 
+    id: number | string, 
 };
 
 export type MarkedMapComponentProps = {

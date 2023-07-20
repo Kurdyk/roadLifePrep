@@ -14,7 +14,7 @@ const SwitchableComponent: React.FC<SwitchableComponentProps> = ({components, de
                 labels={[components[0].label, components[1].label]} 
                 state={chosenComponent} 
                 stateDispatcher={setChosenComponent}
-            />
+                />
             {components[chosenComponent].element}
         </Box>
   )

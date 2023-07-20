@@ -1,0 +1,34 @@
+{
+    "sensorList": [
+    {
+      "id": 1,
+      "position": { "lat": 48.8708, "lng": 2.3321 },
+      "roadId": 1
+    },
+    {
+      "id": 2,
+      "position": { "lat": 48.8709, "lng": 2.3322 },
+      "roadId": 1
+    },
+    {
+      "id": 3,
+      "position": { "lat": 48.871, "lng": 2.3323 },
+      "roadId": 1
+    },
+    {
+      "id": 4,
+      "position": { "lat": 48.8592, "lng": 2.3424 },
+      "roadId": 2
+    },
+    {
+      "id": 5,
+      "position": { "lat": 48.8593, "lng": 2.3425 },
+      "roadId": 2
+    },
+    {
+      "id": 6,
+      "position": { "lat": 48.8594, "lng": 2.3426 },
+      "roadId": 2
+    }
+  ]
+}

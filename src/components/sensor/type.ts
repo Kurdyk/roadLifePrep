@@ -1,21 +1,31 @@
+import { Position, RoadName } from "components/roads/type";
 import { Line } from "utils/LineGraph/type";
 import { Bar } from "utils/barGraph/type";
 
+export type SensorData = {
+    factualData: {
+        scaledData: number[],
+        dataType: "Wear" | "Usage",
+        dataScale: "Années" | "Mois" | "Semaine" | "Jour",
+    }[],
+    prediction: string,
+    usagePrediction: [number, number, number, number],
+    wearPrediction: [number, number, number, number],
+}
+
 export type Sensor = {
-    sensorId: string,
-    currentWear: number, // usure
-    currentUsage: number,
-    position: [number, number],
+    id: string,
+    roadId: string,
+    position: Position,
+    data? : SensorData
 }
 
 export type SensorPresentationInfo = {
-    roadName : string,
-    postalCode : number,
-    sensorId : number,
+    roadName : RoadName,
+    sensorId : string,
     currentWear : number,
-    city : string,
-    roadCoordinates : [[number, number], [number, number]],
-    sensorCoordinates : [number, number],
+    roadCoordinates : Position[],
+    sensorCoordinates : Position,
 }
 
 export type TimeScale = "Années" | "Mois" | "Semaine" | "Jour";

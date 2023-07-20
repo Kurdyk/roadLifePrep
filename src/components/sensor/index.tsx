@@ -7,6 +7,7 @@ import MarkedMapComponent from 'utils/markedMap';
 import { greenIcon } from 'components/accueil/accueilMap/const';
 import { useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
+import { colorWear } from 'components/shared/const';
 
 const SensorComponent: React.FC = () => {
 
@@ -29,19 +30,23 @@ const SensorComponent: React.FC = () => {
     else return (
         <Box id="SensorWrapper">
             <Box id="SensorPresentation">
+
                 {displayPresentation()}
+
                 <MarkedMapComponent id={'SensorMap'} center={presentationInfo.sensorCoordinates} canInteract={false} defaultZoom={13}
-                markers={[{position: presentationInfo.sensorCoordinates, text:"", id:0, icon:greenIcon, interactive:false}]}
-                lines={[{startPosition: presentationInfo.roadCoordinates[0], 
-                        endPosition: presentationInfo.roadCoordinates[1],
-                        color:"red",
-                        id:0}]} />
+                    markers={[{position: presentationInfo.sensorCoordinates, text:"", id:0, icon:greenIcon, interactive:false}]}
+                    lines={[{position: presentationInfo.roadCoordinates,
+                            color:colorWear(presentationInfo.currentWear),
+                            id:0}]}
+                />
             </Box>
 
             <Box id="SensorGraphAndSelectorWrapper">
+
                 <ToggleButtonGroupComponent toggleButtonPropsList={toogleButtons} changeHandler={changeHandler}
                                                                         selectedValue={dataType}
                                                                         id="DataTypeSelection" />
+
                 <Box id="SensorGraphAndScale">
                     <ScaleSelectorComponent
                         value={timeScale}
@@ -50,11 +55,11 @@ const SensorComponent: React.FC = () => {
                         id={'TimeScaleSelector'}
                         label="Choix d'échelle"
                         />
+
                 {displayGraph()}
                 </Box>
             </Box>
         </Box>)
-
 }
 
 export default SensorComponent

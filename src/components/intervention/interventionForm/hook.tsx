@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ActionButtonProps } from "utils/atoms/buttonGroup/actionButtonGroup/type"
 import { InputGroupProps } from "utils/atoms/inputGroup/type";
 
-const postUrl = "http://localhost:5000/intervention/new_intervention";
+const postUrl = "http://localhost:5111/interventions";
 const roadUrl = "http://localhost:5555/roads";
 
 const fetchRoadsOption = (async (dispatcher:React.Dispatch<React.SetStateAction<Road[]>>) => {
@@ -23,8 +23,12 @@ const fetchRoadsOption = (async (dispatcher:React.Dispatch<React.SetStateAction<
     
     // success
     const content = await rawResponse.json();
-    const roads = content["content"].map((road:string) => {
-        return JSON.parse(road)
+    const roads = content["roadList"].map((road:string) => {
+        try {
+            return JSON.parse(road)
+        } catch (error) {
+            return road;
+        }
     })
     dispatcher.apply(undefined, [roads]);
 })
@@ -37,7 +41,7 @@ export const useData = () => {
     const [lastName, setLastName] = useState<string>("");
     const [mail, setMail] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [roadName, setRoadName] = useState<string>("")
+    const [roadId, setRoadId] = useState<string>("")
 
     const [mailError, setMailError] = useState<boolean>(false);
     const [roadError, setRoadError] = useState<boolean>(false);
@@ -67,9 +71,9 @@ export const useData = () => {
             helperText : "Required",
             placeholder: "Route",
             autocompeInfo: {
-                options: roads.sort((a, b) => a.city.localeCompare(b.city)),
-                groupBy: (road) => {return road.city},
-                getOptionLabel: (road) => {return road.street},
+                options: roads.sort((road1, road2) => road1.name.city.localeCompare(road2.name.city)),
+                groupBy: (road : Road) => {return road.name.city},
+                getOptionLabel: (road : Road) => {return road.name.streetName},
                 renderGroup : (params) => (<List key={params.key}>
                     <Typography variant="h6">{params.group}</Typography>
                     <ListItem>{params.children}</ListItem>
@@ -77,7 +81,7 @@ export const useData = () => {
             },
             onChange: (event, value) => {
                 setRoadError(false);
-                setRoadName(`${value.street}_${value.city}_${value.postalCode}`);
+                setRoadId(value.id);
             }
         },
         {
@@ -128,8 +132,7 @@ export const useData = () => {
 
     const handleClick = (async () => {
 
-        console.log(roadName);
-        if (roadName === "") {
+        if (roadId === "") {
             setRoadError(true);
             return;
         }
@@ -163,7 +166,7 @@ export const useData = () => {
             "lastName" : lastName,
             "mail":mail,
             "description" : description,
-            "roadName" : roadName,
+            "roadId" : roadId,
             })
         });
 

@@ -1,0 +1,16 @@
+{
+    "road" : {
+        "id": 2,
+        "name": {
+          "streetName": "Avenue des Champs-Élysées",
+          "postalCode": "75008",
+          "city": "Paris"
+        },
+        "wearScore": 75,
+        "roadPosition": [
+          { "lat": 48.8715, "lng": 2.3016 },
+          { "lat": 48.8716, "lng": 2.3017 },
+          { "lat": 48.8717, "lng": 2.3018 }
+        ]
+    }
+}

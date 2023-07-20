@@ -5,6 +5,7 @@ import utils
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route("/login", methods=["POST"])
 def login():
     json = request.get_json()
@@ -21,6 +22,7 @@ def login():
         return jsonify("User not found"), 404
     return make_response(jsonify({"token":token}), 200)
 
+
 @app.route("/register", methods=["POST"])
 def register():
     json = request.get_json()
@@ -32,7 +34,7 @@ def register():
         token = utils.generate_token(user)
     except ValueError as err:
         return jsonify("User already exists"), 409
-    return make_response(jsonify({"token":token}), 201)
+    return make_response(jsonify({"token": token}), 201)
 
 if __name__ == "__main__":
     app.run(host="localhost", port=4444, debug=True)

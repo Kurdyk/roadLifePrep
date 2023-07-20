@@ -1,0 +1,19 @@
+#TeamPageWrapper {
+    margin-top: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.CollaboratorList {
+    margin-top: 1%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.collaboratorCard {
+    margin: 1%;
+    width: 23%;
+}

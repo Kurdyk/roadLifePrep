@@ -5,13 +5,14 @@ export type Line = {
     stroke : string,
     data: {key:string, value:number}[]
     type?: CurveType,
+    strokeDasharray?: string,
 }
 
 export type ReferenceLine = {
-    x? : string,
+    x? : number,
     y? : number,
-    stroke: string,
-    label: string,
+    stroke: string, // color
+    label: string, // legend
     dashed? : string | number,
 }
 

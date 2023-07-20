@@ -1,0 +1,156 @@
+{
+    "userList": [
+        {
+            "mail": "ll@ll.fr",
+            "prenom": "louis",
+            "nom": "luis",
+            "password": "azerty",
+            "role": "collectivite",
+            "id": "4a5de062-3aca-4c3f-860d-842db1e546fe"
+        },
+        {
+            "mail": "lk@lk.fr",
+            "prenom": "louis",
+            "nom": "louidza",
+            "password": "azerty",
+            "role": "collectivite",
+            "id": "dda7cd59-9405-4e67-a768-36b6c49b8773"
+        },
+        {
+            "mail": "bsyizatnxv",
+            "prenom": "lv",
+            "nom": "nko",
+            "password": "e",
+            "role": "collectivite",
+            "id": "b793e805-98d7-4710-80e0-71412c293de6"
+        },
+        {
+            "mail": "mltdosxmwo",
+            "prenom": "ok",
+            "nom": "ewx",
+            "password": "b",
+            "role": "collectivite",
+            "id": "aa04523c-805e-42c0-83b3-f463140135eb"
+        },
+        {
+            "mail": "lndxkupcgy",
+            "prenom": "yf",
+            "nom": "eqw",
+            "password": "w",
+            "role": "collectivite",
+            "id": "690e415d-12d5-437b-822e-672e6c9f8baf"
+        },
+        {
+            "mail": "ljmkhavmnl",
+            "prenom": "wp",
+            "nom": "rpp",
+            "password": "m",
+            "role": "particulier",
+            "id": "4d6541d2-ea5a-4676-a5dd-a461b772ada5"
+        },
+        {
+            "mail": "zajelneprg",
+            "prenom": "ui",
+            "nom": "tvb",
+            "password": "l",
+            "role": "collectivite",
+            "id": "c834b581-6aec-482c-ab06-2c091ecbc63b"
+        },
+        {
+            "mail": "pivfuumkrd",
+            "prenom": "ca",
+            "nom": "psm",
+            "password": "t",
+            "role": "particulier",
+            "id": "e920b1c0-80c6-4133-bde7-bbfde5de6e80"
+        },
+        {
+            "mail": "dmbkflwdtz",
+            "prenom": "fh",
+            "nom": "gcm",
+            "password": "a",
+            "role": "particulier",
+            "id": "9a7543c3-ec3d-47ac-810e-7bd85d01b4c1"
+        },
+        {
+            "mail": "idlprhgblj",
+            "prenom": "eb",
+            "nom": "jkw",
+            "password": "p",
+            "role": "particulier",
+            "id": "13a13e30-86a4-45ce-b8a5-232d675031b3"
+        },
+        {
+            "mail": "vxiszhuxub",
+            "prenom": "uz",
+            "nom": "zaq",
+            "password": "u",
+            "role": "particulier",
+            "id": "213459be-9e44-4a20-9102-e5eb3dea89b7"
+        },
+        {
+            "mail": "kpcbrvioyb",
+            "prenom": "in",
+            "nom": "vvj",
+            "password": "c",
+            "role": "particulier",
+            "id": "cddcdf99-7361-4af5-bc4d-ecd5d75aad35"
+        },
+        {
+            "mail": "decmdnfokh",
+            "prenom": "zp",
+            "nom": "spw",
+            "password": "m",
+            "role": "particulier",
+            "id": "eb7fcd26-e76e-4059-bf1c-7bea6be892b1"
+        },
+        {
+            "mail": "hxsrrgdemq",
+            "prenom": "af",
+            "nom": "jhm",
+            "password": "t",
+            "role": "particulier",
+            "id": "72e3dd90-26a3-4987-ac34-8fa01907d4c6"
+        },
+        {
+            "mail": "ehtbfripfm",
+            "prenom": "fe",
+            "nom": "zqr",
+            "password": "z",
+            "role": "particulier",
+            "id": "8d31eeb6-58f0-43bc-9137-0ca64c1e69a4"
+        },
+        {
+            "mail": "urwkkugsjv",
+            "prenom": "fy",
+            "nom": "mcw",
+            "password": "f",
+            "role": "particulier",
+            "id": "5ac0b2ee-e67f-42d6-b72f-7bd6ae92a8cf"
+        },
+        {
+            "mail": "xwlrheiorh",
+            "prenom": "tv",
+            "nom": "eyd",
+            "password": "d",
+            "role": "particulier",
+            "id": "c7e05703-2493-418f-87ba-11e02ed1a5b1"
+        },
+        {
+            "mail": "ewtdpdffna",
+            "prenom": "zy",
+            "nom": "tqg",
+            "password": "l",
+            "role": "particulier",
+            "id": "257fff4e-cc1e-42f5-8a8c-3b62eb3c7860"
+        },
+        {
+            "mail": "ociaprnvoe",
+            "prenom": "ky",
+            "nom": "cqz",
+            "password": "g",
+            "role": "particulier",
+            "id": "f4c19ad2-d9a0-4093-9ed9-17f545927553"
+        }
+    ]        
+}

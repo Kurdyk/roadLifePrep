@@ -48,7 +48,18 @@ export const useData = () => {
                 })
                 return isValid;
             };
+
+            const verifyMail = (input : string) => {
+                return  /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(input)
+            }
+
+            if (mail === undefined || !verifyMail(mail)) {
+                setMailError(true);
+                return;
+            }
+
             if (!verifyPassword()) {
+                setPasswordError(true);
                 return;
             }
 
@@ -111,7 +122,7 @@ export const useData = () => {
             setMail(input.target.value)
         },
         error:mailError,
-        helperText:"Mail already in use",
+        helperText:"Mail invalid or already in use",
     } as FormInputProps;
 
     const mpdInput = {

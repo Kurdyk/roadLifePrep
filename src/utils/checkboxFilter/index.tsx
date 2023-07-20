@@ -5,7 +5,7 @@ import { CheckboxFilterProps } from './type'
 import { checkboxSelectionContext } from 'utils/SearchableDataGrid/const';
 import CheckboxGroup from 'utils/atoms/checkboxGroup';
 
-const CheckboxFilter: React.FC<CheckboxFilterProps> = ({id, labels, index, onChange, title}) => {
+const CheckboxFilter: React.FC<CheckboxFilterProps> = ({id, labels, values, index, onChange, title}) => {
 
     const {selections, setSelections} = useContext(checkboxSelectionContext);
 
@@ -15,17 +15,18 @@ const CheckboxFilter: React.FC<CheckboxFilterProps> = ({id, labels, index, onCha
 
     return (
         <Box className="CheckboxFilter" id={id}>
-            <Typography variant='h6' className="CheckboxFilterTitle">{title}</Typography>
+            <Typography variant='h6' className="CheckboxFilterTitle" color={"text.secondary"}>{title}</Typography>
             <CheckboxGroup labels={labels} onChange={(event, labelIndex) => {
                 const current = selections.get(index)!;
                 if (event.target.checked) {
-                    current.add(labels[labelIndex]);
+                    current.add(values[labelIndex]);
                 } else {
-                    current.delete(labels[labelIndex]);
+                    current.delete(values[labelIndex]);
                 }
                 setSelections(index, current);
                 onChange?.apply(undefined)
-            }} />
+            }}
+            />
         </Box>
     )
 }

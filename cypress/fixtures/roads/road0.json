@@ -1,0 +1,16 @@
+{
+    "road" :{
+        "id": 0,
+        "name": {
+          "streetName": "Rue de la Paix",
+          "postalCode": "75001",
+          "city": "Paris"
+        },
+        "wearScore": 80,
+        "roadPosition": [
+          { "lat": 48.8708, "lng": 2.3321 },
+          { "lat": 48.8709, "lng": 2.3322 },
+          { "lat": 48.871, "lng": 2.3323 }
+        ]
+    }
+}

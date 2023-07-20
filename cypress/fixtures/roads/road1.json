@@ -1,0 +1,16 @@
+{
+    "road" : {
+        "id": 1,
+        "name": {
+          "streetName": "Rue de Rivoli",
+          "postalCode": "75001",
+          "city": "Paris"
+        },
+        "wearScore": 60,
+        "roadPosition": [
+          { "lat": 48.8592, "lng": 2.3424 },
+          { "lat": 48.8593, "lng": 2.3425 },
+          { "lat": 48.8594, "lng": 2.3426 }
+        ]
+      }
+}

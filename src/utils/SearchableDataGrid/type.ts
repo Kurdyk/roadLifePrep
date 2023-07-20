@@ -1,6 +1,10 @@
 import { GridColDef } from "@mui/x-data-grid";
 
-export type ExtendedGridColDef = GridColDef & { checkboxeFilter? : string[], title? : string, id? : string }
+export type CheckBoxInfo = {
+    display: string,
+    value: any,
+}
+export type ExtendedGridColDef = GridColDef & { checkboxFilter? : CheckBoxInfo[], title? : string, id? : string }
 
 export type DataGridComponentProps = {
     rows: Object[],

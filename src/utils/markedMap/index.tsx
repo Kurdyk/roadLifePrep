@@ -26,8 +26,8 @@ const MarkedMapComponent: React.FC<MarkedMapComponentProps> = ({id, markers, lin
 
             {/* Set lines */}
             <Box className="MapLines">
-                {lines?.map(({startPosition, endPosition, color, id}) => {
-                    return <Polyline positions={[startPosition, endPosition]} color={color} key={id}/>
+                {lines?.map(({position, color, id}) => {
+                    return <Polyline positions={position} color={color} key={id}/>
                 })}
             </Box>
             {/* Recenter map */}

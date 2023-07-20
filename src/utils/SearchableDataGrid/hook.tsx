@@ -7,7 +7,6 @@ import { Box } from "@mui/material";
 
 
 export const useData = (rows:Object[], columns:GridColDef[]) => {
-
     // used for row height computation
     const [height, setHeight] = useState<number>(400);
 
@@ -16,7 +15,7 @@ export const useData = (rows:Object[], columns:GridColDef[]) => {
     for (let i = 0 ; i < rows.length ; ) {
         const row = rows[i];
         Object.keys(row).forEach((item) => keys.push(item))
-        break;
+        break; // if row.lenght === 0
     }
 
     // Link columns number to object field : field => col number
@@ -69,8 +68,11 @@ export const useData = (rows:Object[], columns:GridColDef[]) => {
                 const [key, value] = Object.entries(row)[i];
                 const mapIndex = map.get(key)!;
                 // Is it linked to a check box selector ?
-                const currentRange = dateRanges.get(mapIndex)!;
-                if (currentRange.endDate === null || currentRange.startDate === null) { // Date range not fully define
+                const currentRange = dateRanges.get(mapIndex);
+                if (currentRange === undefined) {
+                    continue;
+                }
+                if (currentRange.endDate === null || currentRange.startDate === null) { // Date range not fully defined
                     return true;
                 } else {
                     if (currentRange.startDate > value || currentRange.endDate < value) {
@@ -90,10 +92,10 @@ export const useData = (rows:Object[], columns:GridColDef[]) => {
         }
 
         // Main research bar filter
-        result = result.filter((row) => {
-            for (let i = 0 ; i < Object.entries(row).length ; i++) {
+        const searchFor = (target:any, object:object): boolean => {
+            for (let i = 0 ; i < Object.entries(object).length ; i++) {
 
-                const [, value] = Object.entries(row)[i];
+                const [, value] = Object.entries(object)[i];
 
                 switch (typeof value) {
 
@@ -115,11 +117,21 @@ export const useData = (rows:Object[], columns:GridColDef[]) => {
                         }
                         break; 
 
+                    case "object":
+                        if (value === null) break;
+                        const found = searchFor(target, value);
+                        if (found) return true;
+                        break;
+
                     default:
                         break;
                 }
             }
             return false;
+        }
+
+        result = result.filter((row) => {
+            return searchFor(input, row)
         })
 
         setAllRows(result);
@@ -178,14 +190,26 @@ export const useRenderDateRange = (columns: ExtendedGridColDef[], onChange: () =
 // Check box filtering
 
 export const renderCheckBoxFiltering = (columns: ExtendedGridColDef[], onChange: () => void) => {
+
     return (
         <Box className="CheckboxFilters">
         {
             columns.map((column, index) => {
-            if (column.checkboxeFilter) {
+            if (column.checkboxFilter) {
+
+                const labels = column.checkboxFilter.map(({display, value}) => {
+                    return display;
+                })
+
+                const values = column.checkboxFilter.map(({display, value}) => {
+                    return value;
+                })
+
+
                 return <CheckboxFilter 
                     index={index}
-                    labels={column.checkboxeFilter} 
+                    labels={labels}
+                    values={values} 
                     onChange={onChange}
                     title={column.title}
                     id={column.id}

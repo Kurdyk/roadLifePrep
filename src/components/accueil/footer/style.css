@@ -2,7 +2,7 @@
 
 #footerAccueil {
     z-index:1; 
-    min-height: 15vh;
+    height: 15vh;
     display: flex;
     justify-content:space-evenly;
     width:100%;

@@ -18,12 +18,11 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({id, index, startDateLa
 
     return (
         <Box id={id} className="DateRangePicker" key={index}>
-            <Typography variant='h6'>{title}</Typography>
+            <Typography variant='h6' color={"text.secondary"}>{title}</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
                 <DatePicker className="DatePicker"
                             label={startDateLabel}
                             onChange={(newValue:Date | null) => {
-                                console.log(newValue);
                                 setDates(index, {startDate: newValue, endDate:dates.get(index)!.endDate});
                                 onChange?.apply(undefined, [])
                             }}
@@ -31,7 +30,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({id, index, startDateLa
                 <DatePicker className="DatePicker"
                             label={endDateLabel} 
                             onChange={(newValue: Date | null) => {
-                                console.log(newValue);
                                 dates.set(index, {startDate: dates.get(index)!.startDate, endDate:newValue});
                                 onChange?.apply(undefined, [])
                             }}

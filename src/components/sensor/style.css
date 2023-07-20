@@ -45,6 +45,10 @@
     margin-top: 5%;
 }
 
+#DataTypeSelection > * {
+    background-color: aliceblue;
+}
+
 #SensorGraphAndSelectorWrapper {
     height: 80%;
     width: 100%;
@@ -67,6 +71,11 @@
 #TimeScaleSelector {
     width: 10%;
     margin-left: 2%;
+    background-color: aliceblue;
+}
+
+#TimeScaleSelector > * {
+    background: none;
 }
 
 #WearGraph, #UsageGraph {

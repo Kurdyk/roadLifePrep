@@ -1,0 +1,44 @@
+{
+    "interventionList": [
+        { 
+            "id":"0",
+            "roadId":"0",
+            "roadUrl":"http://localhost:5555/roads/0",
+            "askDate":"2023/07/02",
+            "state":0,
+            "description":"A nice description"
+        },
+
+        {
+            "id":"1",
+            "roadId":"1",
+            "roadUrl":"http://localhost:5555/roads/1",
+            "askDate":"2023/07/04",
+            "state":1,
+            "description":"A 2nd nice description",
+            "refusalDate":"06/07/2023",
+            "refusalDescription":"On a pas les sous"
+        },
+        {
+            "id":"2",
+            "roadId":"2",
+            "roadUrl":"http://localhost:5555/roads/2",
+            "askDate":"2023/07/07",
+            "state":2,
+            "description":"A nice description again",
+            "acceptanceDate":"08/07/2023"
+        },
+        {
+            "id":"3",
+            "roadId":"0",
+            "roadUrl":"http://localhost:5555/roads/0",
+            "askDate":"2023/07/09",
+            "state":3,
+            "description":"A last nice description",
+            "acceptanceDate":"10/07/2023",
+            "realisationDate": "13/07/2023",
+            "report":"C'est réparé",
+            "wearGain": 34
+        }
+    ]
+}

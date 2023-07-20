@@ -1,10 +1,12 @@
 import random
 import string
+from uuid import uuid4
 
 user_file_path = "./users.txt"
 
 class User:
     def __init__(self, mail:str, password:str, prenom:str = "", nom:str ="", role:str = "particulier") -> None:
+        self.id = uuid4()
         self.mail = mail
         self.prenom = prenom
         self.nom = nom
@@ -12,10 +14,16 @@ class User:
         self.role = role
 
     def __str__(self) -> str:
-        return f"{self.mail},{self.prenom},{self.nom},{self.password},{self.role}"
-    
-    def to_json(self) -> str:
-        return "{" + f""" "mail":"{self.mail}", "prenom":"{self.prenom}", "nom":"{self.nom}", "role":"{self.role}" """ + "}"
+        return f"{self.mail},{self.prenom},{self.nom},{self.password},{self.role},{self.id}"
+
+    def to_json(self) -> dict:
+        return {
+            "mail": self.mail,
+            "prenom": self.prenom,
+            "nom": self.nom,
+            "password": self.password,
+            "role": self.role,
+        }
 
 def fill_user(n: int):
     def generate_random_user():

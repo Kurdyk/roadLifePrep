@@ -6,31 +6,46 @@ import { User } from "./type";
 
 const url = "http://localhost:5555/users";
 
+// fetching function
+const actionOnUser = (async (userId: string, action: "DELETE" | "PUT") => {
+    console.log(userId)
+    const rawResponse = await fetch(url + `/${userId}`, {
+        method: action,
+        headers:{
+            'Content-type':'application/json', 
+            "token":sessionStorage.getItem("token")!,
+        }})
+    
+        if (rawResponse.status !== 200) {
+            const error = await rawResponse.json()
+            console.log(error["message"])
+            return;
+        } else {
+            window.location.reload();
+        }
+})
+
 // utils
-const castToRowData = (userString:string) => {
-    const replaceRegex = /| |"/g;
-    const filtered = userString.replaceAll(replaceRegex, "");
-    const asObject = JSON.parse(filtered);
+const castToRowData = (user:User) => {
     const action = [
         {
             id:1, 
             buttonText:"Modification",
-            clickHandler: () => {},
+            clickHandler: () => {actionOnUser(user.id, "PUT")},
         },
         {
             id:2, 
             buttonText:"Suppresion",
-            clickHandler: () => {}
+            clickHandler: () => {actionOnUser(user.id, "DELETE")},
         }
     ] as ActionButtonProps[];
-    asObject["actions"] = action;
-    return asObject;
+    user.actions = action;
+    return user;
 }
 
-const castAll = (rawData:string[]) => {
-    return rawData.map((userString, index) => {
+const castAll = (rawData:User[]) => {
+    return rawData.map((userString, ) => {
         const asObject = castToRowData(userString);
-        asObject["id"] = index;
         return asObject;
     })
 }
@@ -43,7 +58,7 @@ export const useData = () => {
         {
             field:"prenom",
             headerName:"Prénom",
-            width: 150,
+            minWidth: 150,
             align: "center",
             flex:1,
             headerAlign: "center",
@@ -51,7 +66,7 @@ export const useData = () => {
         {
             field:"nom",
             headerName:"Nom",
-            width: 150,
+            minWidth: 150,
             flex:1,
             align: "center",
             headerAlign: "center",
@@ -59,7 +74,7 @@ export const useData = () => {
         {
             field:"mail",
             headerName:"Mail",
-            width: 150,
+            minWidth: 150,
             flex:1,
             align: "center",
             headerAlign: "center",
@@ -67,7 +82,7 @@ export const useData = () => {
         {
             field:"role",
             headerName:"Rôle",
-            width: 150,
+            minWidth: 150,
             align: "center",
             flex:1,
             headerAlign: "center",
@@ -77,13 +92,14 @@ export const useData = () => {
             headerName:"Possible actions",
             sortable:false,
             renderCell: (param) => {
+                if (param.row.role === "collectivite") return null
                 const props = param.value as ActionButtonProps[];
                 return <ActionButtonGroupComponent actionButtonPropsList={props} />
             },
-            width: 300,
+            minWidth: 300,
             align: "center",
             headerAlign: "center",
-        }
+        },
     ] as GridColDef[];
 
     // Rows
@@ -105,7 +121,7 @@ export const useData = () => {
             }
             
             const content = await rawResponse.json();
-            const userData = content["content"]
+            const userData = content["userList"]
             return userData;
         });
     

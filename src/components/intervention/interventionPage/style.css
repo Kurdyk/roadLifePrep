@@ -23,14 +23,16 @@
     justify-content: center;
 }
 
+
 @media all and (max-height:900px) {
-    .RoadNameWrapper {
-        flex-direction: row ;
-    }
 
     .RoadNameWrapper > * {
-        margin-left: 1px !important;
-        margin-right: 1px !important;
+        margin-left: 3px !important;
+        margin-right: 3px !important;
+    }
+
+    .RoadNameWrapper {
+        flex-direction: row;
     }
 }
 

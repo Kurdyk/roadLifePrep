@@ -29,15 +29,16 @@ export const useData = () => {
             setPasswordError(false);
             (async () => {
 
+
                 const rawResponse = await fetch(url, {
-                  method: 'POST',
-                  headers:{
-                    'Content-type':'application/json', 
-                  },
-                  body: JSON.stringify({
-                    "mail":mail,
-                    "password":password,
-                  })
+                    method: 'POST',
+                    headers:{
+                        'Content-type':'application/json', 
+                    },
+                    body: JSON.stringify({
+                            "mail":mail,
+                            "password":password,
+                    })
                 });
 
                 if (rawResponse.status === 401) {

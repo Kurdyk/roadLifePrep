@@ -5,7 +5,7 @@ export type Bar = {
 }
 
 export type ReferenceLine = {
-    x? : string,
+    x? : number,
     y? : number,
     stroke: string,
     label: string,
